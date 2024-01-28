@@ -101,7 +101,10 @@ router.post("/add", (req, res) => {
                             res.status(400).json({status: 400, message: "Selected portfolio does not have enough selected share to sell"});
                         }
                     }
-                })
+                }).catch(err => {
+                    console.log(err)
+                    res.status(500).json({status: 500, message: err.message})
+                });
             } else {
                 models.portfolios_shares.findAll({
                     where: {
@@ -128,10 +131,19 @@ router.post("/add", (req, res) => {
                     } else {
                         res.status(400).json({status: 400, message: "Selected portfolio does not have enough money to buy"});
                     }
-                })
+                }).catch(err => {
+                    console.log(err)
+                    res.status(500).json({status: 500, message: err.message})
+                });
             }
-        })
-    })
+        }).catch(err => {
+            console.log(err)
+            res.status(500).json({status: 500, message: err.message})
+        });
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({status: 500, message: err.message})
+    });
 });
 
 const updatePortfolioShareQuantity = async (portfolio_share, quantity) => {
